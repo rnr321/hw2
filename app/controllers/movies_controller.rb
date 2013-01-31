@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-helper_method :sort_column, :sort_direction
+
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
@@ -8,28 +8,20 @@ helper_method :sort_column, :sort_direction
 
   def index
     #@movies = Movie.all
-    @movies = Movie.order (sort_column + " " + sort_direction)	
-    @all_ratings = Movie.all_ratings
-    @selected_ratings = (params[:ratings].present? ? params[:ratings] : [])
+    @movies = case params[:sort]   
+    when "title" then
+      Movie.order("title ASC")
+    when "release_date" then
+      Movie.order("release_date ASC")
+    else
+      Movie.all
+    end
+    @hilite = params[:sort]
   end
 
   def new
     # default: render 'new' template
   end
-
-private
-
-  def filter_selection	
-   params[:ratings] == nil ? Movie.all_ratings : params[:ratings]	
-  end
-	
- def sort_column
-	 Movie.column_names.include?(params[:sort]) ? params[:sort] : "id"
- end
-
-def sort_direction
-%w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
-end
 
   def create
     @movie = Movie.create!(params[:movie])

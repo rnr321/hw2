@@ -3,4 +3,7 @@ module MoviesHelper
   def oddness(count)
     count.odd? ?  "odd" :  "even"
   end
+  def header_attrs(hilite)
+    hilite == @hilite ? {:class => "hilite"} : {}
+  end
 end

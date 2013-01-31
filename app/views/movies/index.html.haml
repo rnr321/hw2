@@ -4,9 +4,12 @@
 %table#movies
   %thead
     %tr
-      %th{:class => th_class("title")}= sortlist "title", "Movie Title", @selected_ratings, "title_header"
+      -#%th Movie Title
+      %th{header_attrs("title")}
+        %a#title_header{:href => "/movies?sort=title"} Movie Title
       %th Rating
-      %th{:class => th_class("release_date")}= sortlist "release_date", "Release Date", @selected_ratings, "release_date_header"
+      %th{header_attrs("release_date")}
+        %a#release_date_header{:href => "/movies?sort=release_date"} Release Date
       %th More Info
   %tbody
     - @movies.each do |movie|
